@@ -9,9 +9,16 @@
 
 #pragma once
 
+#if defined(_WIN32) || defined(_WIN64)
+    #define OS_IS_WINDOWS
+#endif
+
 #include <iostream>
 #include <cstdlib>
+
+#ifndef OS_IS_WINDOWS
 #include <unistd.h>
+#endif
 
 #define MAKE_MANIPULATOR(function_name, escape)                             \
     template<typename CharT, typename Traits = std::char_traits<CharT>>     \
@@ -39,13 +46,14 @@ namespace priv
     template< typename CharT, typename Traits = std::char_traits<CharT> > 
     bool isatty(std::basic_ostream<CharT, Traits>& os)
     {
+#ifndef OS_IS_WINDOWS
         std::streambuf const * osbuf = os.rdbuf();
         if (osbuf == coutbuf)
             return ::isatty(1);
 
         if (osbuf == cerrbuf or osbuf == clogbuf)
             return ::isatty(2);
-
+#endif
         return false;
     }
 
@@ -54,17 +62,27 @@ namespace priv
     template<typename CharT, typename Traits = std::char_traits<CharT>>
     bool sgr_enabled(std::basic_ostream<CharT, Traits>& os)
     {
+#ifndef OS_IS_WINDOWS
         if (mode == sgrmode::ALWAYS_ENABLED)
             return true;
 
         if (mode == sgrmode::ONLY_IF_TTY)
             return isatty(os);
-
+#endif
         return false;
     }
 }
 
+sgrmode current_mode(void)
+{
+    return priv::mode;
+}
 
+void set_mode(sgrmode m)
+{
+    priv::mode = m;
+}
+    
 /* Remove all attributes */
 MAKE_MANIPULATOR(reset, "\x1b[0m");
 
