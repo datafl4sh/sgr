@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <array>
 
 #ifndef OS_IS_WINDOWS
 #include <unistd.h>
@@ -294,20 +295,22 @@ namespace priv
     template<bool background>
     struct rgb_manip {
         int r, g, b;
+        bool noop;
         
+        rgb_manip() : noop(true) {}
         rgb_manip(int pr, int pg, int pb)
-        : r(pr), g(pg), b(pb)
+            : r(pr), g(pg), b(pb), noop(false)
         {}
     };
 
     using fg_rgb_manip = rgb_manip<false>;
     using bg_rgb_manip = rgb_manip<true>;
-}
+} // namespace priv
 
 inline std::ostream&
 operator<<(std::ostream& os, const priv::fg_rgb_manip& rm)
 {
-    if ( priv::isatty(os) )
+    if ( priv::isatty(os) && !rm.noop )
     {
         if (rm.r < 0 || rm.r > 5) return os;
         if (rm.g < 0 || rm.g > 5) return os;
@@ -328,7 +331,7 @@ rgbfg(int r, int g, int b) {
 inline std::ostream&
 operator<<(std::ostream& os, const priv::bg_rgb_manip& rm)
 {
-    if ( priv::isatty(os) )
+    if ( priv::isatty(os) && !rm.noop )
     {
         if (rm.r < 0 || rm.r > 5) return os;
         if (rm.g < 0 || rm.g > 5) return os;
@@ -345,6 +348,34 @@ inline priv::bg_rgb_manip
 rgbbg(int r, int g, int b) {
     return priv::bg_rgb_manip(r,g,b);
 }
+    
+#define PALETTE_MAX_COLORS  8
+    
+struct palette {
+    size_t maxentry;
+    std::array<priv::fg_rgb_manip, PALETTE_MAX_COLORS>   plt;
+    
+    palette()
+        : maxentry(0)
+    {}
+    
+    bool
+    add_color(int r, int g, int b)
+    {
+        if (maxentry == PALETTE_MAX_COLORS)
+            return false;
+        plt[maxentry++] = priv::fg_rgb_manip(r,g,b);
+        return true;
+    }
+    
+    priv::fg_rgb_manip
+    operator()(size_t index) const
+    {
+        if (maxentry == 0)
+            return priv::fg_rgb_manip();
+        return plt[index % maxentry];
+    }
+};
 
 }
 

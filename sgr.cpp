@@ -53,6 +53,14 @@ int main(void)
                 std::cout << rgbbg(r,g,b) << '*' << nobg;
         std::cout << std::endl;
     }
+
+    palette pal;
+    pal.add_color(5,0,0);
+    pal.add_color(0,5,0);
+    pal.add_color(0,0,5);
+
+    for (size_t i = 0; i < 6; i++)
+        std::cout << pal(i) << "Testing palette" << nofg << std::endl;
     
     return 0;
 }
