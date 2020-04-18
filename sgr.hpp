@@ -41,9 +41,9 @@ enum class sgrmode {
 
 namespace priv
 {
-    std::streambuf const * coutbuf = std::cout.rdbuf();
-    std::streambuf const * cerrbuf = std::cerr.rdbuf();
-    std::streambuf const * clogbuf = std::clog.rdbuf();
+    static std::streambuf const * coutbuf = std::cout.rdbuf();
+    static std::streambuf const * cerrbuf = std::cerr.rdbuf();
+    static std::streambuf const * clogbuf = std::clog.rdbuf();
     template< typename CharT, typename Traits = std::char_traits<CharT> > 
     bool isatty(std::basic_ostream<CharT, Traits>& os)
     {
@@ -74,11 +74,13 @@ namespace priv
     }
 }
 
+inline
 sgrmode current_mode(void)
 {
     return priv::mode;
 }
 
+inline
 void set_mode(sgrmode m)
 {
     priv::mode = m;
