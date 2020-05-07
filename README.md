@@ -72,6 +72,25 @@ while if you want underlined blue you can type
     
 Note that in this case the manipulator `reset` was used: it restores normal text (no color, no styles).
 
+## Color palette
+You can define a color palette with
+
+```
+sgr::palette pal;
+pal.add_color(5,0,0);
+pal.add_color(0,5,0);
+pal.add_color(0,0,5);
+```
+
+The maximum number of colors you can add is `PALETTE_MAX_COLORS`, which is currently set to 8.
+
+Once you're done adding colors, you can use the palette as following:
+
+```
+std::cout << pal(i) << "Hello, world!" << std::endl;
+```
+The index is treated modulo the number of colors installed in the palette, so there is no risk of overflow.
+
 ## TTY/Non-TTY output behaviour
 By default, `sgr` produces colored text only if your output is a TTY. If you are writing to a file, coloring is omitted.
 
