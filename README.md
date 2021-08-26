@@ -15,31 +15,31 @@ For example, to use Red foreground color, you type:
 
     #include "sgr.hpp"
     using namespace sgr;
-    
+
     std::cout << redfg << "Hello, world!" << nofg << std::endl;
-    
+
 In this last example you see that also the `nofg` manipulator appears: it disables the colored output when you're finished.
 
 If you want the bright variant of a color, you just use the color name with uppercase first letter:
 
     std::cout << Redfg << "Hello, world!" << nofg << std::endl;
-    
+
 ### Background color
 The logic for background colors is the same as the logic for foreground colors, the only difference is that the name of manipulators finishes with `bg`. So, to set Green background color:
 
     std::cout << greenbg << "Hello, world!" << nobg << std::endl;
-    
+
 Or, if you want the bright variant:
 
     std::cout << Greenbg << "Hello, world!" << nobg << std::endl;
-    
+
 ### RGB colors
 In addition to the basic 8 colors, you have the possibility to use another 216 colors that are specified using an RGB triple `(r,g,b)`. Note that the components of the RGB triple can take the values from 0 to 5.
 
 So, to set foreground color using an rgb triple:
 
     std::cout << rgbfg(1,2,3) << "Hello, world!" << nofg << std::endl;
-    
+
 Similarly, the background color is set as:
 
     std::cout << rgbbg(1,2,3) << "Hello, world!" << nobg << std::endl;
@@ -61,15 +61,15 @@ In addition to colors, `sgr` allows you to specify the text styles supported by 
 When you want to apply a foreground color and set a text style at the same time, there are some shortcut manipulators available with the following syntax:
 
     [BIUF][Cc]olorfg
-    
+
 For example, if you want bold bright green text you can type
 
     std::cout << BGreen << "Hello, world!" << reset << std::endl;
-    
+
 while if you want underlined blue you can type
 
     std::cout << Ublue << "Hello, world!" << reset << std::endl;
-    
+
 Note that in this case the manipulator `reset` was used: it restores normal text (no color, no styles).
 
 ## Color palette
@@ -99,10 +99,11 @@ You can however change this behaviour. There are three modes:
     sgrmode::ALWAYS_ENABLED /* Text always colored */
     sgrmode::ONLY_IF_TTY    /* Text colored only if output is a TTY */
     sgrmode::DISABLED       /* Text never colored */
-    
+
 The current mode can be retrieved with the function `current_mode()`, while a new mode can be set using the function `set_mode()`. For example:
 
     #include "sgr.hpp"
     using namespace sgr;
-    
+
     set_mode(sgrmode::ALWAYS_ENABLED);
+

@@ -3,7 +3,7 @@
  * <datafl4sh@toxicnet.eu> wrote this file. As long as you retain this notice
  * you can do whatever you want with this stuff. If we meet some day, and you
  * think this stuff is worth it, you can buy me a beer in return.
- * Matteo Cicuttin
+ * Matteo Cicuttin - https://github.com/datafl4sh/sgr
  * ----------------------------------------------------------------------------
  */
 
@@ -59,7 +59,7 @@ namespace priv
     }
 
     static sgrmode mode = sgrmode::ONLY_IF_TTY;
- 
+
     template<typename CharT, typename Traits = std::char_traits<CharT>>
     bool sgr_enabled(std::basic_ostream<CharT, Traits>& os)
     {
@@ -85,7 +85,7 @@ void set_mode(sgrmode m)
 {
     priv::mode = m;
 }
-    
+
 /* Remove all attributes */
 MAKE_MANIPULATOR(reset, "\x1b[0m");
 
@@ -298,7 +298,7 @@ namespace priv
     struct rgb_manip {
         int r, g, b;
         bool noop;
-        
+
         rgb_manip() : noop(true) {}
         rgb_manip(int pr, int pg, int pb)
             : r(pr), g(pg), b(pb), noop(false)
@@ -318,7 +318,7 @@ operator<<(std::ostream& os, const priv::fg_rgb_manip& rm)
         if (rm.g < 0 || rm.g > 5) return os;
         if (rm.b < 0 || rm.b > 5) return os;
         int color = 16 + 36*rm.r + 6*rm.g + rm.b;
-    
+
         os << "\x1b[38;5;" << color << "m";
     }
 
@@ -339,7 +339,7 @@ operator<<(std::ostream& os, const priv::bg_rgb_manip& rm)
         if (rm.g < 0 || rm.g > 5) return os;
         if (rm.b < 0 || rm.b > 5) return os;
         int color = 16 + 36*rm.r + 6*rm.g + rm.b;
-        
+
         os << "\x1b[48;5;" << color << "m";
     }
 
@@ -350,17 +350,17 @@ inline priv::bg_rgb_manip
 rgbbg(int r, int g, int b) {
     return priv::bg_rgb_manip(r,g,b);
 }
-    
+
 #define PALETTE_MAX_COLORS  8
-    
+
 struct palette {
     size_t maxentry;
     std::array<priv::fg_rgb_manip, PALETTE_MAX_COLORS>   plt;
-    
+
     palette()
         : maxentry(0)
     {}
-    
+
     bool
     add_color(int r, int g, int b)
     {
@@ -369,7 +369,7 @@ struct palette {
         plt[maxentry++] = priv::fg_rgb_manip(r,g,b);
         return true;
     }
-    
+
     priv::fg_rgb_manip
     operator()(size_t index) const
     {
