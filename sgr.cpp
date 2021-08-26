@@ -38,6 +38,7 @@ int main(void)
     std::cout << "Testing " << cyanbg << "cyan" << nobg << " color" << std::endl;
     std::cout << "Testing " << whitebg << "white" << nobg << " color" << std::endl;
 
+    std::cout << "Testing 6x6x6 RGB foreground" << std::endl;
     for (int r = 0; r < 6; r++)
     {
         for (int g = 0; g < 6; g++)
@@ -46,6 +47,7 @@ int main(void)
         std::cout << std::endl;
     }
 
+    std::cout << "Testing 6x6x6 RGB background" << std::endl;
     for (int r = 0; r < 6; r++)
     {
         for (int g = 0; g < 6; g++)
@@ -53,6 +55,16 @@ int main(void)
                 std::cout << rgbbg(r,g,b) << '*' << nobg;
         std::cout << std::endl;
     }
+
+    std::cout << "Testing grayscale foreground" << std::endl;
+    for (int lvl = 0; lvl < 24; lvl++)
+        std::cout << grayscalefg(lvl) << '*' << nofg;
+    std::cout << std::endl;
+
+    std::cout << "Testing grayscale background" << std::endl;
+    for (int lvl = 0; lvl < 24; lvl++)
+        std::cout << grayscalebg(lvl) << '*' << nobg;
+    std::cout << std::endl;
 
     palette pal;
     pal.add_color(5,0,0);

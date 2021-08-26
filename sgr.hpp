@@ -351,6 +351,59 @@ rgbbg(int r, int g, int b) {
     return priv::bg_rgb_manip(r,g,b);
 }
 
+namespace priv
+{
+    template<bool background>
+    struct grayscale_manip {
+        int level;
+        bool noop;
+
+        grayscale_manip() : noop(true) {}
+        grayscale_manip(int plvl)
+            : level(plvl), noop(false)
+        {}
+    };
+
+    using fg_grayscale_manip = grayscale_manip<false>;
+    using bg_grayscale_manip = grayscale_manip<true>;
+} // namespace priv
+
+inline std::ostream&
+operator<<(std::ostream& os, const priv::fg_grayscale_manip& gm)
+{
+    if ( priv::isatty(os) && !gm.noop )
+    {
+        if (gm.level < 0 or gm.level > 23) return os;
+        int ansi_level =  gm.level + 232;
+        os << "\x1b[38;5;" << ansi_level << "m";
+    }
+
+    return os;
+}
+
+inline priv::fg_grayscale_manip
+grayscalefg(int lvl) {
+    return priv::fg_grayscale_manip(lvl);
+}
+
+inline std::ostream&
+operator<<(std::ostream& os, const priv::bg_grayscale_manip& gm)
+{
+    if ( priv::isatty(os) && !gm.noop )
+    {
+        if (gm.level < 0 or gm.level > 23) return os;
+        int ansi_level =  gm.level + 232;
+        os << "\x1b[48;5;" << ansi_level << "m";
+    }
+
+    return os;
+}
+
+inline priv::bg_grayscale_manip
+grayscalebg(int lvl) {
+    return priv::bg_grayscale_manip(lvl);
+}
+
 #define PALETTE_MAX_COLORS  8
 
 struct palette {

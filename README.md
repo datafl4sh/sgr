@@ -6,6 +6,7 @@ If you use `sgr` in Windows it shouldn't produce any harmful output and you shou
 
 I am not interested in supporting Windows, if you need/want Windows support you can either open a pull request or use [Termcolor](https://github.com/ikalnytskyi/termcolor).
 
+For the impatient, look at the examples in `sgr.cpp`. For the detailed instructions, continue reading.
 
 ## Color manipulators
 The basic color manipulators allow to set the foreground or the background text color to one of the basic 8 ANSI colors, which are Black, Red, Green, Yellow, Blue, Magenta, Cyan, White. Each color has a "bright" variant.
@@ -45,7 +46,15 @@ Similarly, the background color is set as:
     std::cout << rgbbg(1,2,3) << "Hello, world!" << nobg << std::endl;
 
 ### Grayscale
-It is coming, stay tuned!
+A 24-level grayscale is available in 256-color terminals. In `sgr` the level is specified with a number from 0 to 23.
+
+To set the foreground gray level:
+
+    std::cout << grayscalefg(21) << "Hello, world!" << nofg << std::endl;
+
+Similarly, to set the background gray level:
+
+    std::cout << grayscalebg(21) << "Hello, world!" << nobg << std::endl;
 
 ## Style manipulators
 In addition to colors, `sgr` allows you to specify the text styles supported by the ANSI standard: Bold, Faint, Italic, Underlined, Crossed-out and Reverse Video. Blink is not included in `sgr`. The corresponding manipulators are:
