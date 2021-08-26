@@ -404,11 +404,13 @@ grayscalebg(int lvl) {
     return priv::bg_grayscale_manip(lvl);
 }
 
-#define PALETTE_MAX_COLORS  8
+#ifndef SGR_PALETTE_MAX_COLORS
+#define SGR_PALETTE_MAX_COLORS  8
+#endif /* SGR_PALETTE_MAX_COLORS */
 
 struct palette {
     size_t maxentry;
-    std::array<priv::fg_rgb_manip, PALETTE_MAX_COLORS>   plt;
+    std::array<priv::fg_rgb_manip, SGR_PALETTE_MAX_COLORS>   plt;
 
     palette()
         : maxentry(0)
@@ -417,7 +419,7 @@ struct palette {
     bool
     add_color(int r, int g, int b)
     {
-        if (maxentry == PALETTE_MAX_COLORS)
+        if (maxentry == SGR_PALETTE_MAX_COLORS)
             return false;
         plt[maxentry++] = priv::fg_rgb_manip(r,g,b);
         return true;

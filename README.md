@@ -91,7 +91,7 @@ pal.add_color(0,5,0);
 pal.add_color(0,0,5);
 ```
 
-The maximum number of colors you can add is `PALETTE_MAX_COLORS`, which is currently set to 8.
+The maximum number of colors you can add is `SGR_PALETTE_MAX_COLORS`, which is currently set to 8. You can override the default value by defining `SGR_PALETTE_MAX_COLORS` before the inclusion of `sgr.hpp`
 
 Once you're done adding colors, you can use the palette as following:
 
