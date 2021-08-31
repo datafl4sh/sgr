@@ -10,7 +10,10 @@
 #pragma once
 
 #if defined(_WIN32) || defined(_WIN64)
+    /* Windows is *NOT* supported, but sgr will compile fine. All the sgr
+     * manipulators compile to no-ops on Windows. */
     #define OS_IS_WINDOWS
+    #include <ciso646> /* CL compat, but ciso646 will go away in C++20 */
 #endif
 
 #include <iostream>
