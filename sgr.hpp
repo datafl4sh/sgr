@@ -7,7 +7,8 @@
  * ----------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef _SGR_HPP_
+#define _SGR_HPP_
 
 #if defined(_WIN32) || defined(_WIN64)
     /* Windows is *NOT* supported, but sgr will compile fine. All the sgr
@@ -438,4 +439,6 @@ struct palette {
 };
 
 }
+
+#endif /* _SGR_HPP_ */
 
