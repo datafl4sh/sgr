@@ -306,6 +306,8 @@ MAKE_MANIPULATOR(cr, "\x0D");           // CTRL-M
 /* Some CSI sequences */
 MAKE_MANIPULATOR(clrscr, "\x1b[2J\x1b[1;1H");
 MAKE_MANIPULATOR(clrline, "\x1b[2K");
+MAKE_MANIPULATOR(hidecursor, "\x1b[?25l");
+MAKE_MANIPULATOR(showcursor, "\x1b[?25h")
 
 namespace priv
 {

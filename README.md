@@ -112,6 +112,8 @@ SGR provides limited support to other terminal control sequences, in particular:
   * `clrscr`: clear screen and move cursor to home position
   * `clrline`: clear current line
   * `gotoxy(x,y)`: go to position `(x,y)` in the terminal (1-based, `(1,1)` being at the top-left corner)
+  * `hidecursor`: hide cursor
+  * `showcursor`: show cursor
 
 ## TTY/Non-TTY output behaviour
 By default, `sgr` produces colored text only if your output is a TTY. If you are writing to a file, coloring is omitted.
