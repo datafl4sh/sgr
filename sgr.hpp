@@ -295,6 +295,41 @@ MAKE_MANIPULATOR(Whitebg, "\x1b[107m");
 /* No background color */
 MAKE_MANIPULATOR(nobg, "\x1b[49m");
 
+/* Control characters */
+MAKE_MANIPULATOR(bell, "\x07");         // CTRL-G
+MAKE_MANIPULATOR(backspace, "\x08");    // CTRL-H
+MAKE_MANIPULATOR(tab, "\x09");          // CTRL-I
+MAKE_MANIPULATOR(lf, "\x0A");           // CTRL-J
+MAKE_MANIPULATOR(ff, "\x0C");           // CTRL-L
+MAKE_MANIPULATOR(cr, "\x0D");           // CTRL-M
+
+/* Some CSI sequences */
+MAKE_MANIPULATOR(clrscr, "\x1b[2J\x1b[1;1H");
+MAKE_MANIPULATOR(clrline, "\x1b[2K");
+
+namespace priv
+{
+    struct gotoxy
+    {
+        int row, col;
+
+        gotoxy(int r, int c) : row(r), col(c) {};
+    };
+}
+
+inline std::ostream&
+operator<<(std::ostream& os, const priv::gotoxy& gxy)
+{
+    if ( priv::isatty(os) )
+        os << "\x1b[" << gxy.row << ";" << gxy.col << "H";
+    return os;
+}
+
+inline priv::gotoxy
+gotoxy(int x, int y) {
+    return priv::gotoxy(y, x);
+}
+
 namespace priv
 {
     /* 6x6x6 RGB foreground/background */
