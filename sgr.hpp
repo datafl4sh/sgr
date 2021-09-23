@@ -7,8 +7,8 @@
  * ----------------------------------------------------------------------------
  */
 
-#ifndef _SGR_HPP_
-#define _SGR_HPP_
+#ifndef SGR_HPP_INCLUDED
+#define SGR_HPP_INCLUDED
 
 #if defined(_WIN32) || defined(_WIN64)
     /* Windows is *NOT* supported, but sgr will compile fine. All the sgr
@@ -315,7 +315,7 @@ namespace priv
     {
         int row, col;
 
-        gotoxy(int r, int c) : row(r), col(c) {};
+        gotoxy(int r, int c) : row(r), col(c) {}
     };
 }
 
@@ -477,5 +477,5 @@ struct palette {
 
 }
 
-#endif /* _SGR_HPP_ */
+#endif /* SGR_HPP_INCLUDED */
 
