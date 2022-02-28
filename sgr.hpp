@@ -64,6 +64,15 @@ namespace priv
 
     static sgrmode mode = sgrmode::ONLY_IF_TTY;
 
+    struct query_env_nocolor {
+        query_env_nocolor() {
+            if ( getenv("NO_COLOR") != nullptr )
+                mode = sgrmode::DISABLED;
+        }
+    };
+
+    query_env_nocolor q;
+ 
     template<typename CharT, typename Traits = std::char_traits<CharT>>
     bool sgr_enabled(std::basic_ostream<CharT, Traits>& os)
     {
@@ -353,7 +362,7 @@ namespace priv
 inline std::ostream&
 operator<<(std::ostream& os, const priv::fg_rgb_manip& rm)
 {
-    if ( priv::isatty(os) && !rm.noop )
+    if ( priv::sgr_enabled(os) and priv::isatty(os) and !rm.noop )
     {
         if (rm.r < 0 || rm.r > 5) return os;
         if (rm.g < 0 || rm.g > 5) return os;
@@ -374,7 +383,7 @@ rgbfg(int r, int g, int b) {
 inline std::ostream&
 operator<<(std::ostream& os, const priv::bg_rgb_manip& rm)
 {
-    if ( priv::isatty(os) && !rm.noop )
+    if ( priv::sgr_enabled(os) and priv::isatty(os) and !rm.noop )
     {
         if (rm.r < 0 || rm.r > 5) return os;
         if (rm.g < 0 || rm.g > 5) return os;
