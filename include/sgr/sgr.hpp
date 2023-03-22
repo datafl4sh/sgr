@@ -6,9 +6,7 @@
  * Matteo Cicuttin - https://github.com/datafl4sh/sgr
  * ----------------------------------------------------------------------------
  */
-
-#ifndef SGR_HPP_INCLUDED
-#define SGR_HPP_INCLUDED
+#pragma once
 
 #if defined(_WIN32) || defined(_WIN64)
     /* Windows is *NOT* supported, but sgr will compile fine. All the sgr
@@ -485,6 +483,4 @@ struct palette {
 };
 
 }
-
-#endif /* SGR_HPP_INCLUDED */
 
