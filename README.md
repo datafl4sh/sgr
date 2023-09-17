@@ -131,3 +131,6 @@ The current mode can be retrieved with the function `current_mode()`, while a ne
 
     set_mode(sgrmode::ALWAYS_ENABLED);
 
+## Support of `NO_COLOR`
+`sgr` honours the `NO_COLOR` variable in order to enable/disable text coloring. See [here](https://no-color.org/) for details.
+
