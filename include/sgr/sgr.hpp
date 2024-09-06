@@ -482,5 +482,42 @@ struct palette {
     }
 };
 
+#ifdef SGR_ENABLE_MPI
+#include <mpi.h>
+#endif
+
+namespace priv
+{
+    struct rank_wrapper {
+        int rank;
+        rank_wrapper(int r) : rank(r) {}
+    };
+
+    struct nullbuf : public std::streambuf {
+        int overflow(int c) { return c; }
+    };
+
+    nullbuf nbuf;
+    std::ostream null_stream(&nbuf);
+}
+
+inline std::ostream&
+operator<<(std::ostream& os, const priv::rank_wrapper& rw)
+{
+#ifdef SGR_ENABLE_MPI
+    int my_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+    if (rw.rank != my_rank)
+        return priv::null_stream;
+#endif
+    return os;
+}
+
+inline priv::rank_wrapper
+rank(int r) {
+    return priv::rank_wrapper(r);
+}
+
+
 }
 

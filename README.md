@@ -134,3 +134,13 @@ The current mode can be retrieved with the function `current_mode()`, while a ne
 ## Support of `NO_COLOR`
 `sgr` honours the `NO_COLOR` variable in order to enable/disable text coloring. See [here](https://no-color.org/) for details.
 
+## MPI support, filter output based on process rank
+In MPI you usually want only some ranks to print to the console (usually rank 0). In `sgr` there is a manipulator to accomplish this without filling your code with `if`s:
+
+    #define SGR_ENABLE_MPI
+
+    std::cout << rank(0) << "Hello from rank 0" << std::endl;
+    std::cout << rank(1) << "Hello from rank 1" << std::endl;
+
+The messages above will be printed only by the ranks you specified with `rank()`. If there is no MPI, `rank()` is a no-operation.
+
